@@ -7,9 +7,9 @@
 
 ### Первое задание
 
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
+![alt text](image.png | width=100)
+![alt text](image-1.png | width=100)
+![alt text](image-2.png | width=100)
 
 ### Структура файлов во втором задании:
 
