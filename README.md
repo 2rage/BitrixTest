@@ -7,12 +7,9 @@
 
 ### Первое задание
 
-<img src="/image.png" width="400">
-<img src="/image-1.png" width="400">
-<img src="/image-2.png" width="400">
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
+<img src="/image.png" width="600">
+<img src="/image-1.png" width="600">
+<img src="/image-2.png" width="600">
 
 ### Структура файлов во втором задании:
 
