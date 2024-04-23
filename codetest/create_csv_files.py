@@ -4,7 +4,7 @@ import pandas as pd
 conn = sqlite3.connect('superheroes.db')
 c = conn.cursor()
 
-
+# Убрал значения null из запросов к БД
 top_strength = pd.read_sql_query('''
     SELECT * FROM superheroes 
     WHERE strength IS NOT NULL AND strength != 'null' AND strength != ''
