@@ -1,35 +1,45 @@
-from telegram import Update, ForceReply
+from telegram import Update, Bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 import requests
 
 TOKEN = 'REMOVED'
-BITRIX_WEBHOOK_URL = 'REMOVED'
+BITRIX_WEBHOOK = 'REMOVED'
+BITRIX_WEBOOK2 = 'https://b24-355fx6.bitrix24.ru/rest/1/45l37h83ivtpiqsl/'
 
-def start(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text('Здравствуйте, напишите ваш вопрос')
+def start(update: Update, context: CallbackContext):
+    update.message.reply_text("Здравствуйте, напишите ваш вопрос")
 
-def message_handler(update: Update, context: CallbackContext) -> None:
+def handle_message(update: Update, context: CallbackContext):
     text = update.message.text
-    response = requests.post(f"{BITRIX_WEBHOOK_URL}/crm.lead.add", json={
-        "fields": {
-            "TITLE": "Новый лид из Telegram",
-            "COMMENTS": text
-        }
-    })
-    lead_id = response.json()["result"]
-    update.message.reply_text('Пожалуйста, заполните форму.', reply_markup=ForceReply(selective=True))
+    response = requests.post(f"{BITRIX_WEBHOOK}/crm.lead.add", json={'fields': {'TITLE': 'Новый запрос', 'COMMENTS': text}})
+    lead_id = response.json()['result']
+    update.message.reply_text("Пожалуйста, укажите ваше ФИО, телефон и почту. Ответ отправьте в формате: ФИО, Телефон, Почта.")
 
-def form_handler(update: Update, context: CallbackContext) -> None:
-    phone = update.message.text
-    # Аналогично обрабатываем другие поля и отправляем их в Bitrix24
-    update.message.reply_text('[ФИО] спасибо, мы получили ваши данные, менеджер вам скоро напишет')
+def handle_form(update: Update, context: CallbackContext):
+    user_data = update.message.text.split(", ")
+    if len(user_data) == 3:
+        fio, phone, email = user_data
+        lead_id = context.user_data['current_lead_id'] 
+        requests.post(f"{BITRIX_WEBOOK2}/crm.lead.update", json={
+            'id': lead_id,
+            'fields': {'NAME': fio, 'PHONE': [{'VALUE': phone}], 'EMAIL': [{'VALUE': email}], 'STATUS_ID': '2'}
+        })
+        update.message.reply_text(f"{fio} спасибо, мы получили ваши данные, менеджер вам скоро напишет.")
 
-def main() -> None:
-    updater = Updater(TOKEN)
-    dispatcher = updater.dispatcher
-    dispatcher.add_handler(CommandHandler('start', start))
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, message_handler))
-    dispatcher.add_handler(MessageHandler(Filters.reply, form_handler))
+        requests.post(f"{BITRIX_WEBHOOK}/tasks.task.add", json={
+            'fields': {
+                'TITLE': 'Новый клиент для связи',
+                'DESCRIPTION': f'Свяжитесь с клиентом {fio}. Телефон: {phone}, Email: {email}',
+                'RESPONSIBLE_ID': 1  # ID ответственного сотрудника
+            }
+        })
+
+def main():
+    updater = Updater(TOKEN, use_context=True)
+    dp = updater.dispatcher
+    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command & Filters.regex(r"^[^,]+, [^,]+, [^,]+$"), handle_form))
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_message))
     updater.start_polling()
     updater.idle()
 
