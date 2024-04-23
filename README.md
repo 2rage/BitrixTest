@@ -7,9 +7,10 @@
 
 ### Первое задание
 
-![alt text](image.png | width=100)
-![alt text](image-1.png | width=100)
-![alt text](image-2.png | width=100)
+<img src="/image.png" width="100">
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
 
 ### Структура файлов во втором задании:
 
@@ -19,3 +20,4 @@
 - **tall_strong_heroes.csv** - герои с ростом более 180 и силой больше 80
 - **avg_by_gender.csv** - средние значения по полу
 - **top_strength.csv** - ТОП-5 супергероев по силе
+
