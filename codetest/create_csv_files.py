@@ -22,7 +22,7 @@ def top_strength():
         ORDER BY CAST(strength AS INTEGER) DESC 
         LIMIT 5
     ''')
-    return render_template('table.html', data=data.to_html(classes='table table-hover', header="true"))
+    return render_template('table.html', data=data.to_html(classes='table table-hover', header="true"), title='Top 5 Superheroes by Strength')
 
 @app.route('/tall-strong')
 def tall_strong():
@@ -31,7 +31,7 @@ def tall_strong():
         JOIN appearance a ON s.id = a.hero_id 
         WHERE a.height > 180 AND s.strength > 80
     ''')
-    return render_template('table.html', data=data.to_html(classes='table table-hover', header="true"))
+    return render_template('table.html', data=data.to_html(classes='table table-hover', header="true"), title='Superheroes Taller Than 180 and Stronger Than 80')
 
 @app.route('/avg-by-gender')
 def avg_by_gender():
@@ -41,7 +41,7 @@ def avg_by_gender():
         FROM superheroes s JOIN appearance a ON s.id = a.hero_id 
         GROUP BY a.gender
     ''')
-    return render_template('table.html', data=data.to_html(classes='table table-hover', header="true"))
+    return render_template('table.html', data=data.to_html(classes='table table-hover', header="true"), title='Average Stats by Gender')
 
 if __name__ == '__main__':
     app.run(debug=True)
