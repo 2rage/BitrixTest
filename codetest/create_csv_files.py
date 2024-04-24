@@ -1,24 +1,47 @@
+from flask import Flask, render_template
 import sqlite3
 import pandas as pd
 
-conn = sqlite3.connect('superheroes.db')
-c = conn.cursor()
+app = Flask(__name__)
 
-# Убрал значения null из запросов к БД
-top_strength = pd.read_sql_query('''
-    SELECT * FROM superheroes 
-    WHERE strength IS NOT NULL AND strength != 'null' AND strength != ''
-    ORDER BY CAST(strength AS INTEGER) DESC 
-    LIMIT 5
-''', conn)
-top_strength.to_csv('top_strength.csv', index=False)
+def query_database(query):
+    conn = sqlite3.connect('superheroes.db')
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    return df
 
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-tall_strong_heroes = pd.read_sql_query('SELECT s.name, a.height, s.strength FROM superheroes s JOIN appearance a ON s.id = a.hero_id WHERE a.height > 180 AND s.strength > 80', conn)
-tall_strong_heroes.to_csv('tall_strong_heroes.csv', index=False)
+@app.route('/top-strength')
+def top_strength():
+    data = query_database('''
+        SELECT * FROM superheroes 
+        WHERE strength IS NOT NULL AND strength != 'null' AND strength != ''
+        ORDER BY CAST(strength AS INTEGER) DESC 
+        LIMIT 5
+    ''')
+    return render_template('table.html', data=data.to_html(classes='table table-hover', header="true"))
 
+@app.route('/tall-strong')
+def tall_strong():
+    data = query_database('''
+        SELECT s.name, a.height, s.strength FROM superheroes s 
+        JOIN appearance a ON s.id = a.hero_id 
+        WHERE a.height > 180 AND s.strength > 80
+    ''')
+    return render_template('table.html', data=data.to_html(classes='table table-hover', header="true"))
 
-avg_by_gender = pd.read_sql_query('SELECT a.gender, AVG(s.intelligence) AS avg_intelligence, AVG(s.strength) AS avg_strength, AVG(s.speed) AS avg_speed, AVG(s.power) AS avg_power FROM superheroes s JOIN appearance a ON s.id = a.hero_id GROUP BY a.gender', conn)
-avg_by_gender.to_csv('avg_by_gender.csv', index=False)
+@app.route('/avg-by-gender')
+def avg_by_gender():
+    data = query_database('''
+        SELECT a.gender, AVG(s.intelligence) AS avg_intelligence, AVG(s.strength) AS avg_strength, 
+        AVG(s.speed) AS avg_speed, AVG(s.power) AS avg_power 
+        FROM superheroes s JOIN appearance a ON s.id = a.hero_id 
+        GROUP BY a.gender
+    ''')
+    return render_template('table.html', data=data.to_html(classes='table table-hover', header="true"))
 
-conn.close()
+if __name__ == '__main__':
+    app.run(debug=True)

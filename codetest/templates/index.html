@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mt-4">Welcome to the Superhero Database</h1>
+<p>Explore various data regarding superheroes:</p>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Strength</div>
+            <div class="card-body">
+                <h5 class="card-title">Top 5 Superheroes by Strength</h5>
+                <p class="card-text">Discover the most powerful superheroes based on strength.</p>
+                <a href="/top-strength" class="btn btn-light">View</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Tall & Strong</div>
+            <div class="card-body">
+                <h5 class="card-title">Superheroes Taller Than 180 and Stronger Than 80</h5>
+                <p class="card-text">Explore superheroes who stand tall and possess great strength.</p>
+                <a href="/tall-strong" class="btn btn-light">View</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Gender Stats</div>
+            <div class="card-body">
+                <h5 class="card-title">Average Stats by Gender</h5>
+                <p class="card-text">See average statistics across different genders.</p>
+                <a href="/avg-by-gender" class="btn btn-light">View</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
