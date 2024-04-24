@@ -30,7 +30,7 @@
 
 #### Пример работы приложения:
 
-<img src="/images/image.png" width="800">
-<img src="/images/image-1.png" width="800">
-<img src="/images/image-2.png" width="800">
-<img src="/images/image-3.png" width="800">
+<img src="/images/image-4.png" width="800">
+<img src="/images/image-5.png" width="800">
+<img src="/images/image-6.png" width="800">
+<img src="/images/image-7.png" width="800">
