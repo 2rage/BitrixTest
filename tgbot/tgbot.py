@@ -34,8 +34,8 @@ def handle_form(update: Update, context: CallbackContext):
             lead_update_response = requests.post(f"{BITRIX_WEBOOK2}/crm.lead.update", json={
                 'id': lead_id,
                 'fields': {
-                    'NAME': first_name,
                     'LAST_NAME': last_name,
+                    'NAME': first_name,
                     'SECOND_NAME': second_name,
                     'PHONE': [{'VALUE': phone, 'VALUE_TYPE': 'WORK'}],
                     'EMAIL': [{'VALUE': email, 'VALUE_TYPE': 'WORK'}],
