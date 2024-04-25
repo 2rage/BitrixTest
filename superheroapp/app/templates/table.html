@@ -20,4 +20,7 @@
         {% endfor %}
     </tbody>
 </table>
+<form action="{{ url_for('export_csv') }}" method="post">
+    <button type="submit" class="btn btn-success">Экспортировать в CSV</button>
+</form>
 {% endblock %}

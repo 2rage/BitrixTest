@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, request, session, Response, redirect, url_for
 from .models import Superhero, Appearance
 from .database import db
 from .models import Superhero
@@ -14,6 +14,9 @@ def create_routes(app):
         data = [
             [hero.name, hero.strength] for hero in heroes if hero.strength
         ]
+        # Сохранение заголовков и данных в сессии
+        session['headers'] = headers
+        session['data'] = data
 
         return render_template('table.html', title="Топ 5 супергероев по силе", headers=headers, data=data)
 
@@ -34,8 +37,11 @@ def create_routes(app):
             ] for hero in heroes
         ]
 
-        return render_template('table.html', title="Герои выше 180 см и с силой более 80", headers=headers, data=data)
+        # Сохранение заголовков и данных в сессии
+        session['headers'] = headers
+        session['data'] = data
 
+        return render_template('table.html', title="Герои выше 180 см и с силой более 80", headers=headers, data=data)
 
     @app.route('/average_by_gender')
     def average_by_gender():
@@ -52,9 +58,32 @@ def create_routes(app):
         rows = [[d.gender, round(d.average_intelligence, 2), round(d.average_strength, 2),
                 round(d.average_speed, 2), round(d.average_power, 2)] for d in data]
 
+        # Сохранение заголовков и данных в сессии
+        session['headers'] = headers
+        session['data'] = rows
+
         return render_template('table.html', title="Средние значения по полу", headers=headers, data=rows)
 
-    
+    def generate_csv(headers, data): # Функция для генерации CSV
+        def generate():
+            yield ','.join(headers) + '\n'  # Заголовки столбцов
+            for row in data:
+                yield ','.join('"' + str(cell).replace('"', '""') + '"' for cell in row) + '\n'  # Данные
+
+        return Response(generate(), mimetype='text/csv', headers={"Content-disposition": "attachment; filename=data.csv"})
+
+    @app.route('/export_csv', methods=["POST"])
+    def export_csv():
+        # Предполагается, что заголовки и данные хранятся в сессии
+        headers = session.get('headers')
+        data = session.get('data')
+
+        if not headers or not data:
+            return "Нет данных для экспорта", 400
+
+        return generate_csv(headers, data)
+
+
     @app.route('/')
     def index():
         heroes = Superhero.query.all()  # Загрузка всех супергероев из базы данных

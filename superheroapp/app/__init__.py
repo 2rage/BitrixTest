@@ -4,6 +4,8 @@ from .routes import create_routes  # Импорт функции создани�
 
 def create_app():
     app = Flask(__name__)
+    # Устанавливаем секретный ключ для сессии
+    app.secret_key = 'gdsmlknGKDJGbshe532d4efdNMKF'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///superheroes.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
