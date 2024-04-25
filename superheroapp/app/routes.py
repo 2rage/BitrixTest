@@ -2,6 +2,7 @@ from flask import render_template, request, session, Response, redirect, url_for
 from .models import Superhero, Appearance
 from .database import db
 from .models import Superhero
+from .utils import generate_csv
 
 def create_routes(app):
 
@@ -10,7 +11,7 @@ def create_routes(app):
         # Фильтрация записей, где 'strength' не является ни NULL, ни пустой строкой
         heroes = Superhero.query.filter(Superhero.strength != 'null', Superhero.strength.isnot(None)).order_by(Superhero.strength.desc()).limit(5).all()
 
-        headers = ["Name", "Strength"]
+        headers = ["Имя", "Сила"]
         data = [
             [hero.name, hero.strength] for hero in heroes if hero.strength
         ]
@@ -73,17 +74,8 @@ def create_routes(app):
 
         return render_template('table.html', title="Средние значения по полу", headers=headers, data=rows)
 
-    def generate_csv(headers, data): # Функция для генерации CSV
-        def generate():
-            yield ','.join(headers) + '\n'  # Заголовки столбцов
-            for row in data:
-                yield ','.join('"' + str(cell).replace('"', '""') + '"' for cell in row) + '\n'  # Данные
-
-        return Response(generate(), mimetype='text/csv', headers={"Content-disposition": "attachment; filename=data.csv"})
-
     @app.route('/export_csv', methods=["POST"])
     def export_csv():
-        # Предполагается, что заголовки и данные хранятся в сессии
         headers = session.get('headers')
         data = session.get('data')
 

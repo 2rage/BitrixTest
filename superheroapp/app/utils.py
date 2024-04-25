@@ -1,6 +1,7 @@
 import requests
 from .models import Superhero, Appearance
 from .database import db
+from flask import Response
 
 def convert_height(height_str):
     if "'" in height_str:
@@ -23,6 +24,24 @@ def update_heights(app):
                 appearance.height = new_height
                 print(f"Updating height from {original_height} to {new_height}")
         db.session.commit()
+
+def generate_csv(headers, data):
+    def generate():
+        # Добавляем BOM для UTF-8
+        yield '\ufeff'
+        yield ','.join(headers) + '\n'
+        # Создаем строки данных, каждую ячейку обрамляем кавычками для корректной обработки спецсимволов
+        for row in data:
+            yield ','.join('"' + str(cell).replace('"', '""') + '"' for cell in row) + '\n'
+
+    return Response(
+        generate(),
+        mimetype='text/csv',
+        headers={
+            "Content-disposition": "attachment; filename=data.csv",
+            "Content-Type": "text/csv; charset=utf-8"
+        }
+    )
 
 def fetch_and_populate_heroes(api_token, start_id=1, end_id=100):
     base_url = 'https://superheroapi.com/api/{}/'.format(api_token)
