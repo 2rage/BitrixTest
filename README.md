@@ -35,10 +35,7 @@ superheroapp/
 ```
 
 #### Пример работы приложения:
-![alt text](image-8.png)
-![alt text](image-9.png)
-![alt text](image-10.png)
-![alt text](image-11.png)
+
 <img src="/images/image-8.png" width="800">
 <img src="/images/image-9.png" width="800">
 <img src="/images/image-10.png" width="800">
