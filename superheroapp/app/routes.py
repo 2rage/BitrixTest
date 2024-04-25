@@ -54,9 +54,18 @@ def create_routes(app):
         ).join(Superhero).group_by(Appearance.gender).all()
 
         headers = ["Пол", "Средний интеллект", "Средняя сила", "Средняя скорость", "Средняя мощность"]
-
-        rows = [[d.gender, round(d.average_intelligence, 2), round(d.average_strength, 2),
-                round(d.average_speed, 2), round(d.average_power, 2)] for d in data]
+        
+        gender_translation = {'Male': 'Мужской', 'Female': 'Женский'} # Словарь для перевода
+        
+        rows = [
+            [
+                gender_translation.get(d.gender, d.gender), 
+                round(d.average_intelligence, 2), 
+                round(d.average_strength, 2),
+                round(d.average_speed, 2), 
+                round(d.average_power, 2)
+            ] for d in data
+    ]
 
         # Сохранение заголовков и данных в сессии
         session['headers'] = headers
