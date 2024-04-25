@@ -41,6 +41,10 @@ superheroapp/
 <img src="/images/image-9.png" width="800">
 <img src="/images/image-10.png" width="800">
 <img src="/images/image-11.png" width="800">
+<img src="/images/image-12.png" width="800">
+<img src="/images/image-13.png" width="800">
+<img src="/images/image-14.png" width="800">
+
 
 #### Старая функциональность:
 
