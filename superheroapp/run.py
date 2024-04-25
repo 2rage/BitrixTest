@@ -2,6 +2,29 @@ from app import create_app, db
 from app.models import Superhero, Appearance
 import requests
 
+def convert_height(height_str):
+    # Предполагается формат в виде "6'8"
+    if "'" in height_str:
+        parts = height_str.split("'")
+        feet = int(parts[0].strip())
+        inches = int(parts[1].strip().replace('"', '')) if parts[1].strip() else 0
+        return str(round(feet * 30.48 + inches * 2.54, 2)) + ' cm'
+    return height_str 
+
+def needs_conversion(height):
+    return 'cm' not in height
+
+def update_heights(app):
+    with app.app_context():
+        appearances = Appearance.query.filter(Appearance.height.op('not like')('%cm%')).all()
+        for appearance in appearances:
+            original_height = appearance.height
+            if needs_conversion(original_height):
+                new_height = convert_height(original_height)
+                appearance.height = new_height
+                print(f"Updating height from {original_height} to {new_height}")
+        db.session.commit()
+
 def fetch_and_populate_heroes(api_token, start_id=1, end_id=100):
     base_url = 'https://superheroapi.com/api/{}/'.format(api_token)
 
@@ -37,7 +60,7 @@ def fetch_and_populate_heroes(api_token, start_id=1, end_id=100):
                 print(f"Супергерой '{new_hero.name}' успешно добавлен.")
             except Exception as e:
                 db.session.rollback()
-                print(f"Failed to add superhero '{new_hero.name}': {e}")
+                print(f"Ошибка при добавлении супергероя '{new_hero.name}': {e}")
 
             appearance_data = data['appearance']
             new_appearance = Appearance(
@@ -59,6 +82,7 @@ def fetch_and_populate_heroes(api_token, start_id=1, end_id=100):
 
 if __name__ == '__main__':
     app = create_app()
+    update_heights(app) 
     with app.app_context():
         api_token = 'REMOVED'  # Замените на ваш API ключ
         fetch_and_populate_heroes(api_token)
