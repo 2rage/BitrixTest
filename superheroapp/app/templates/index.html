@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mt-4 mb-4">База данных супергероев</h1>
+
+<div class="list-group">
+    <a href="/top5_by_strength" class="list-group-item list-group-item-action">Топ 5 супергероев по силе</a>
+    <a href="/heroes_tall_strong" class="list-group-item list-group-item-action">Герои выше 180 см и с силой более 80</a>
+    <a href="/average_by_gender" class="list-group-item list-group-item-action">Средние значения по полу</a>
+</div>
+
+{% endblock %}
