@@ -15,9 +15,9 @@ tgbot/
 ├── app/
 │   ├── __init__.py          # Инициализация приложения и его компонентов
 │   ├── config.py            # Конфигурационные настройки бота
-│   ├── handlers.py            # Функции обработки сообщений и команд
+│   ├── handlers.py          # Функции обработки сообщений и команд
 │   ├── models.py            # Описание моделей данны
-│   └── routes.py          # Маршруты и регистрация обработчиков сообщений
+│   └── routes.py            # Маршруты и регистрация обработчиков сообщений
 └── run.py                   # Запуск приложения
 ```
 
@@ -25,10 +25,10 @@ tgbot/
 
 ### Пример работы приложения:
 
-<img src="/images/image.png" width="800">
-<img src="/images/image-1.png" width="800">
-<img src="/images/image-2.png" width="800">
-<img src="/images/image-3.png" width="800">
+<img src="/images/image.png" width="650">
+<img src="/images/image-1.png" width="650">
+<img src="/images/image-2.png" width="650">
+<img src="/images/image-3.png" width="650">
 
 
 ## Второе задание:
@@ -57,13 +57,13 @@ superheroapp/
 
 ### Пример работы приложения:
 
-<img src="/images/image-8.png" width="800">
-<img src="/images/image-9.png" width="800">
-<img src="/images/image-10.png" width="800">
-<img src="/images/image-11.png" width="800">
-<img src="/images/image-12.png" width="800">
-<img src="/images/image-13.png" width="800">
-<img src="/images/image-14.png" width="800">
+<img src="/images/image-8.png" width="650">
+<img src="/images/image-9.png" width="650">
+<img src="/images/image-10.png" width="650">
+<img src="/images/image-11.png" width="650">
+<img src="/images/image-12.png" width="650">
+<img src="/images/image-13.png" width="650">
+<img src="/images/image-14.png" width="650">
 
 
 ## Старая функциональность:
