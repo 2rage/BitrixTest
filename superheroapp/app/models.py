@@ -1,5 +1,6 @@
 from .database import db
 
+
 class Superhero(db.Model):
     __tablename__ = 'superheroes'
     id = db.Column(db.Integer, primary_key=True)
@@ -9,6 +10,7 @@ class Superhero(db.Model):
     speed = db.Column(db.Integer)
     power = db.Column(db.Integer)
     appearances = db.relationship('Appearance', backref='superhero', lazy=True)
+
 
 class Appearance(db.Model):
     __tablename__ = 'appearances'

@@ -1,8 +1,8 @@
-from flask import render_template, request, session, Response, redirect, url_for
+from flask import render_template, session
 from .models import Superhero, Appearance
 from .database import db
-from .models import Superhero
 from .utils import generate_csv
+
 
 def create_routes(app):
 
@@ -21,13 +21,11 @@ def create_routes(app):
 
         return render_template('table.html', title="Топ 5 супергероев по силе", headers=headers, data=data)
 
-
     @app.route('/heroes_tall_strong')
     def heroes_tall_strong():
         heroes = db.session.query(Superhero).join(Appearance).filter(
             Appearance.height > '180', Superhero.strength > 80
         ).all()
-        
         headers = ["Имя", "Интеллект", "Сила", "Скорость", "Мощность", "Пол", "Раса", "Рост", "Вес"]
 
         data = [
@@ -55,18 +53,16 @@ def create_routes(app):
         ).join(Superhero).group_by(Appearance.gender).all()
 
         headers = ["Пол", "Средний интеллект", "Средняя сила", "Средняя скорость", "Средняя мощность"]
-        
-        gender_translation = {'Male': 'Мужской', 'Female': 'Женский'} # Словарь для перевода
-        
+        gender_translation = {'Male': 'Мужской', 'Female': 'Женский'}  # Словарь для перевода
         rows = [
             [
-                gender_translation.get(d.gender, d.gender), 
-                round(d.average_intelligence, 2), 
+                gender_translation.get(d.gender, d.gender),
+                round(d.average_intelligence, 2),
                 round(d.average_strength, 2),
-                round(d.average_speed, 2), 
+                round(d.average_speed, 2),
                 round(d.average_power, 2)
             ] for d in data
-    ]
+        ]
 
         # Сохранение заголовков и данных в сессии
         session['headers'] = headers
@@ -83,7 +79,6 @@ def create_routes(app):
             return "Нет данных для экспорта", 400
 
         return generate_csv(headers, data)
-
 
     @app.route('/')
     def index():

@@ -2,6 +2,7 @@ from flask import Flask
 from .database import db
 from .routes import create_routes  # Импорт функции создания маршрутов
 
+
 def create_app():
     app = Flask(__name__)
     # Устанавливаем секретный ключ для сессии

@@ -1,21 +1,22 @@
-from telegram import Update, Bot
+from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 import requests
 
 TOKEN = 'REMOVED'
 BITRIX_WEBHOOK = 'REMOVED'
 BITRIX_WEBOOK2 = 'REMOVED'
-#REMOVEDcrm.lead.fields.json
+# REMOVEDcrm.lead.fields.json
 
 
 def start(update: Update, context: CallbackContext):
     update.message.reply_text("Здравствуйте, напишите ваш вопрос")
 
+
 def handle_message(update: Update, context: CallbackContext):
     text = update.message.text
     response = requests.post(f"{BITRIX_WEBHOOK}/crm.lead.add", json={'fields': {'TITLE': 'Новый лид из Telegram', 'COMMENTS': text}})
     lead_id = response.json()['result']
-    context.user_data['current_lead_id'] = lead_id 
+    context.user_data['current_lead_id'] = lead_id
     update.message.reply_text("Пожалуйста, укажите ваше ФИО, телефон и почту. Ответ отправьте в формате: ФИО, Телефон, Почта.")
 
 
@@ -30,7 +31,7 @@ def handle_form(update: Update, context: CallbackContext):
             first_name = names[0] if len(names) > 0 else ''
             last_name = names[1] if len(names) > 1 else ''
             second_name = names[2] if len(names) > 2 else ''
-            
+
             lead_update_response = requests.post(f"{BITRIX_WEBOOK2}/crm.lead.update", json={
                 'id': lead_id,
                 'fields': {
@@ -66,6 +67,7 @@ def main():
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_message))
     updater.start_polling()
     updater.idle()
+
 
 if __name__ == '__main__':
     main()

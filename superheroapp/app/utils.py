@@ -3,16 +3,19 @@ from .models import Superhero, Appearance
 from .database import db
 from flask import Response
 
+
 def convert_height(height_str):
     if "'" in height_str:
         parts = height_str.split("'")
         feet = int(parts[0].strip())
         inches = int(parts[1].strip().replace('"', '')) if parts[1].strip() else 0
         return str(round(feet * 30.48 + inches * 2.54, 2)) + ' cm'
-    return height_str 
+    return height_str
+
 
 def needs_conversion(height):
     return 'cm' not in height
+
 
 def update_heights(app):
     with app.app_context():
@@ -24,6 +27,7 @@ def update_heights(app):
                 appearance.height = new_height
                 print(f"Updating height from {original_height} to {new_height}")
         db.session.commit()
+
 
 def generate_csv(headers, data):
     def generate():
@@ -43,6 +47,7 @@ def generate_csv(headers, data):
         }
     )
 
+
 def fetch_and_populate_heroes(api_token, start_id=1, end_id=100):
     base_url = 'https://superheroapi.com/api/{}/'.format(api_token)
 
@@ -58,7 +63,6 @@ def fetch_and_populate_heroes(api_token, start_id=1, end_id=100):
             print(f"В базе данных {hero_count.id} супергероев. Заполняем оставшиеся.")
         else:
             print("База данных пуста. Начинаем заполнение базы данных.")
-
 
     for hero_id in range(start_id, end_id + 1):
         response = requests.get(base_url + str(hero_id))

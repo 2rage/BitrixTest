@@ -3,8 +3,10 @@ from telegram.ext import CallbackContext
 import requests
 from .config import BITRIX_WEBHOOK, BITRIX_WEBHOOK2
 
+
 def start(update: Update, context: CallbackContext):
     update.message.reply_text("Здравствуйте, напишите ваш вопрос")
+
 
 def handle_message(update: Update, context: CallbackContext):
     text = update.message.text
@@ -12,6 +14,7 @@ def handle_message(update: Update, context: CallbackContext):
     lead_id = response.json()['result']
     context.user_data['current_lead_id'] = lead_id
     update.message.reply_text("Пожалуйста, укажите ваше ФИО, телефон и почту. Ответ отправьте в формате: ФИО, Телефон, Почта.")
+
 
 def handle_form(update: Update, context: CallbackContext):
     user_data = update.message.text.split(", ")
@@ -24,7 +27,7 @@ def handle_form(update: Update, context: CallbackContext):
             first_name = names[0] if len(names) > 0 else ''
             last_name = names[1] if len(names) > 1 else ''
             second_name = names[2] if len(names) > 2 else ''
-            
+
             lead_update_response = requests.post(f"{BITRIX_WEBHOOK2}/crm.lead.update", json={
                 'id': lead_id,
                 'fields': {
