@@ -2,7 +2,7 @@ import sqlite3
 import requests
 
 
-api_token = 'REMOVED'
+api_token = 'PASTE_YOUR_SUPERHEROAPI_KEY'
 base_url = 'https://superheroapi.com/api/' + api_token + '/'
 
 def fetch_superhero_data(hero_id):

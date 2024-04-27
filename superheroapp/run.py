@@ -5,6 +5,6 @@ if __name__ == '__main__':
     app = create_app()
     update_heights(app)
     with app.app_context():
-        api_token = 'REMOVED'  # Замените на ваш API ключ
+        api_token = 'PASTE_YOUR_SUPERHEROAPI_KEY'
         fetch_and_populate_heroes(api_token)
     app.run(debug=True)
