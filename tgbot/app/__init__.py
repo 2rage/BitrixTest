@@ -4,6 +4,8 @@ from .config import TELEGRAM_TOKEN
 
 
 def create_app():
+    
+    print("Запуск приложения tgbot...")
     updater = Updater(TELEGRAM_TOKEN, use_context=True)
     setup_routes(updater.dispatcher)
     return updater
