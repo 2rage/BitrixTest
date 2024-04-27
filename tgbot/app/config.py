@@ -1,5 +1,5 @@
 # Токен Telegram бота
-TELEGRAM_TOKEN = 'REMOVED'
+TELEGRAM_TOKEN = 'PASTE YOUR TELEGRAM TOKEN'
 
 # Конфигурации Bitrix
 BITRIX_WEBHOOK = 'REMOVED'

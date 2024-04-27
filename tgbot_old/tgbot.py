@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 import requests
 
-TOKEN = 'REMOVED'
+TOKEN = 'PASTE YOUR TELEGRAM TOKEN'
 BITRIX_WEBHOOK = 'REMOVED'
 BITRIX_WEBOOK2 = 'REMOVED'
 # REMOVEDcrm.lead.fields.json
