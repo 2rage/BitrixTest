@@ -2,10 +2,9 @@ from telegram import Update, Bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 import requests
 
-TOKEN = 'REMOVED'
-BITRIX_WEBHOOK = 'REMOVED'
-BITRIX_WEBOOK2 = 'REMOVED'
-#REMOVEDcrm.lead.fields.json
+TOKEN = 'PASTE_YOUR_TELEGRAM_TOKEN'
+BITRIX_WEBHOOK = 'PASTE_YOUR_BITRIX_TOKEN'
+BITRIX_WEBOOK2 = 'PASTE_YOUR_BITRIX_TOKEN'
 
 
 def start(update: Update, context: CallbackContext):

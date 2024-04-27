@@ -60,6 +60,6 @@ def fetch_and_populate_heroes(api_token, start_id=1, end_id=100):
 if __name__ == '__main__':
     app = create_app()
     with app.app_context():
-        api_token = 'REMOVED'  # Замените на ваш API ключ
+        api_token = 'PASTE_YOUR_SUPERHEROAPI_KEY' 
         fetch_and_populate_heroes(api_token)
         app.run(debug=True)  # Запускаем Flask-приложение после заполнения базы данных
