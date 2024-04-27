@@ -47,6 +47,7 @@ superheroapp/
 │
 ├── app/
 │   ├── __init__.py          # Инициализация Flask приложения
+│   ├── config.py            # Конфигурационные настройки
 │   ├── models.py            # Описание моделей SQLAlchemy
 │   ├── routes.py            # Маршруты приложения
 │   └── database.py          # Настройка базы данных

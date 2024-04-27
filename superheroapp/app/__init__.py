@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from .database import db
 from .routes import create_routes  # Импорт функции создания маршрутов
@@ -5,8 +6,8 @@ from .routes import create_routes  # Импорт функции создани�
 
 def create_app():
     app = Flask(__name__)
-    # Устанавливаем секретный ключ для сессии
-    app.secret_key = 'gdsmlknGKDJGbshe532d4efdNMKF'
+    # Устанавливаем секретный ключ для сессии 
+    app.secret_key = os.urandom(24)  # Не для продакшена. Данные сессии можно хранить в Redis.
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///superheroes.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
